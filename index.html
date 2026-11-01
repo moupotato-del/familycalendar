@@ -2,7 +2,6 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <!-- スマホで拡大縮小やズームを完全に防ぎ、画面をガッチリ固定する設定 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ファミリーカレンダー - 家族の予定管理掲示板</title>
     <!-- Google Fonts -->
@@ -26,7 +25,6 @@
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
-            /* ダブルタップやテキスト選択、長押しメニューによるブレを完全防止 */
             touch-action: manipulation;
             user-select: none;
             -webkit-touch-callout: none;
@@ -72,14 +70,16 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            transition: opacity 0.5s ease;
             background: #fff;
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.5s ease;
         }
 
         .screen.hidden {
             opacity: 0;
             pointer-events: none;
-            z-index: -1;
+            visibility: hidden;
         }
 
         /* 1. タイトル画面（ゆらゆら右往左往する光の枠） */
@@ -88,7 +88,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            z-index: 10;
+            z-index: 30;
             overflow: hidden;
         }
 
@@ -155,7 +155,7 @@
             justify-content: center;
             align-items: center;
             padding: 30px;
-            z-index: 9;
+            z-index: 20;
         }
 
         .login-title {
@@ -213,10 +213,10 @@
             background: var(--pink-light);
         }
 
-        /* 3. メイン画面（最初の完璧なベース構造） */
+        /* 3. メイン画面 */
         #main-screen {
             background: #fff;
-            z-index: 8;
+            z-index: 10;
         }
 
         .app-header {
@@ -532,7 +532,7 @@
 
     <script>
         let currentPin = "";
-        const correctPin = "5555"; // パスワード設定
+        const correctPin = "5555";
         let currentDate = new Date(2026, 8, 1);
         let selectedDateStr = null;
         let movingEventSource = null;
@@ -561,8 +561,12 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                document.getElementById('splash-screen').classList.add('hidden');
-                document.getElementById('login-screen').classList.remove('hidden');
+                const splash = document.getElementById('splash-screen');
+                const login = document.getElementById('login-screen');
+                if (splash && login) {
+                    splash.classList.add('hidden');
+                    login.classList.remove('hidden');
+                }
             }, 3300);
         });
 
